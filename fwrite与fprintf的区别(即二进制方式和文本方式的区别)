@@ -1,0 +1,37 @@
+ASCII文件又称为文本（text）文件，它的每个字节放一个ASCII代码，代表一个字符。
+二进制文件是把内存中的数据按其在内在中的存储形式原样输出到磁盘上存放。
+
+fprintf(fp, "%d", buffer); 是将格式化的数据(txt)写入文件
+fprintf(文件指针,格式字符串,输出表列);
+
+fwrite(&buffer, sizeof(int), 1, fp);是以二进位方式写入文件
+fwrite(数据，数据类型大小（字节数），写入数据的最大数量，文件指针);
+
+占用空间:
+fprintf写入时，对于整数来说，一位占一个字节，比如1，占1个字节；10，占2个字节；100，占3个字节，10000，占5个字节。比较浪费空间
+fwrite是按二进制写入，所以所占空间是根据数据类型来确定，比如int的大小为4个字节（一般32位下），那么整数10所占空间为4个字节，100、10000所占空间也是4个字节。
+                    所以二进制写入比格式化写入更省空间。
+                    
+ case:
+   #include <stdio.h>  
+    void main()  
+    {  
+        int num;  
+        char name[5];  
+        FILE *fp;  
+        if ((fp = fopen("t.txt", "w")) == NULL)  
+            printf("cannot open file!\n");  
+       scanf("%d %s",&num,name);  
+       fprintf(fp, "%d %s", num, name);  
+       fclose(fp);  
+       if ((fp = fopen("tt.txt", "w")) == NULL)  
+            printf("cannot open file!\n");  
+       fwrite(&num, sizeof(int), 1, fp);  
+       fwrite(name, sizeof(char), 5, fp);  
+       fclose(fp);   
+    }  
+    
+    
+ 一句话表述：fwrite是将数据不经转换直接以二进制的形式写入文件，而fprintf是将数据转换为字符后再写入文件。
+                    
+                    
